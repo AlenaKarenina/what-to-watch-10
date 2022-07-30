@@ -4,7 +4,7 @@ import {Film} from '../../types/films';
 import {DEFAULT_ACTIVE_GENRE} from '../../const';
 
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {setActiveGenre, getFilteredGenre} from '../../store/action';
+import {setActiveGenre, getFilteredGenre, resetFilmsCount} from '../../store/action';
 
 type GenresListProps = {
   films: Film[],
@@ -25,6 +25,7 @@ function GenresList({films}: GenresListProps): JSX.Element {
             onClick={() => {
               dispatch(setActiveGenre(genre));
               dispatch(getFilteredGenre());
+              dispatch(resetFilmsCount());
             }}
           >
             {genre}

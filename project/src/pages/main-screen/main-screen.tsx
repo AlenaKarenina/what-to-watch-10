@@ -15,7 +15,7 @@ type MainScreenProps = {
 };
 
 function MainScreen({filmPromo, films}: MainScreenProps): JSX.Element {
-  const {filteredFilms} = useAppSelector((state) => state);
+  const {filteredFilms, filmsCount} = useAppSelector((state) => state);
 
   return (
     <>
@@ -69,7 +69,7 @@ function MainScreen({filmPromo, films}: MainScreenProps): JSX.Element {
 
           <GenresList films={films}/>
 
-          <FilmsList films={filteredFilms}/>
+          <FilmsList films={filteredFilms.slice(0, filmsCount)}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
