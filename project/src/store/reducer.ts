@@ -1,17 +1,20 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {getFilteredGenre} from './action';
+import {setActiveGenre, getFilteredGenre} from './action';
 import {DEFAULT_ACTIVE_GENRE} from '../const';
 import {FILMS_DATA} from '../mocks/films';
 
 const initialState = {
-  genre: DEFAULT_ACTIVE_GENRE,
-  films: FILMS_DATA,
+  activeGenre: DEFAULT_ACTIVE_GENRE,
+  filteredFilms: FILMS_DATA,
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(getFilteredGenre, (state, action) => {
-      state.genre = action.payload;
+    .addCase(setActiveGenre, (state, action) => {
+      state.activeGenre = action.payload;
+    })
+    .addCase(getFilteredGenre, (state) => {
+      state.filteredFilms = state.activeGenre === DEFAULT_ACTIVE_GENRE ? FILMS_DATA : FILMS_DATA.filter((item) => item.genre === state.activeGenre);
     });
 });
 
