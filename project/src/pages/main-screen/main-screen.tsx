@@ -4,7 +4,7 @@ import {Film} from '../../types/films';
 import FilmsList from '../../components/films-list/films-list';
 import {FilmPromo} from '../../types/filmPromo';
 import IconsPlayer from '../../components/icons-player/icons-player';
-
+import ShowMoreBtn from '../../components/show-more-btn/show-more-btn';
 import GenresList from '../../components/genres-list/genres-list';
 
 import {useAppSelector} from '../../hooks';
@@ -15,7 +15,7 @@ type MainScreenProps = {
 };
 
 function MainScreen({filmPromo, films}: MainScreenProps): JSX.Element {
-  const {filteredFilms} = useAppSelector((state) => state);
+  const {filteredFilms, filmsCount} = useAppSelector((state) => state);
 
   return (
     <>
@@ -69,11 +69,9 @@ function MainScreen({filmPromo, films}: MainScreenProps): JSX.Element {
 
           <GenresList films={films}/>
 
-          <FilmsList films={filteredFilms}/>
+          <FilmsList films={filteredFilms.slice(0, filmsCount)}/>
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          {((filteredFilms.length - filmsCount) > 0) && <ShowMoreBtn/>}
         </section>
 
         <Footer />

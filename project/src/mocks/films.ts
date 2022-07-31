@@ -177,4 +177,26 @@ export const FILMS_DATA: Film[] = [
     released: 2015,
     isFavorite: true,
   },
+  {
+    id: 9,
+    name: 'Revenant',
+    posterImage: 'img/revenant.jpg',
+    previewImage: 'img/revenant.jpg',
+    backgroundImage: 'img/revenant.jpg',
+    backgroundColor: '',
+    videoLink:
+      'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
+    previewVideoLink:
+      'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
+    description:
+      'A frontiersman on a fur trading expedition in the 1820s fights for survival after being mauled by a bear and left for dead by members of his own hunting team.',
+    rating: 8.0,
+    scoresCount: 768,
+    director: 'Alejandro G. Iñárritu',
+    starring: ['Leonardo DiCaprio, Will Poulter, Forrest Goodluck'],
+    runTime: 99,
+    genre: 'Western',
+    released: 2015,
+    isFavorite: true,
+  },
 ];

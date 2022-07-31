@@ -22,3 +22,5 @@ export enum TabNames {
 export const MORE_LIKE_FILM_COUNT = 4;
 
 export const DEFAULT_ACTIVE_GENRE = 'All genres';
+
+export const FILMS_COUNT = 8;
