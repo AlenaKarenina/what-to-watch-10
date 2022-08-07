@@ -14,13 +14,13 @@ type MoviePageScreenProps = {
 }
 
 function MoviePageScreen({films, reviews}: MoviePageScreenProps): JSX.Element {
+
   const navigate = useNavigate();
   const params = useParams();
   const id = `${(params.id ? params.id.slice(1) : '0')}`;
   const film = films.find((item) => item.id === Number.parseInt(id, 10)) || films[0];
 
-  const filteredFilms = films
-    //.filter((item) => (item.genre === film.genre && item.name !== film.name))
+  const similarFilms = films
     .slice(0, MORE_LIKE_FILM_COUNT);
 
   const handlePlayBtnClick = () => {
@@ -81,7 +81,7 @@ function MoviePageScreen({films, reviews}: MoviePageScreenProps): JSX.Element {
             </div>
 
             <div className="film-card__desc">
-              <Tabs film={film} reviews={reviews}/>
+              <Tabs film={film || null} reviews={reviews}/>
             </div>
           </div>
         </div>
@@ -89,7 +89,7 @@ function MoviePageScreen({films, reviews}: MoviePageScreenProps): JSX.Element {
 
       <div className="page-content">
 
-        <SimilarListCards films={filteredFilms}/>
+        <SimilarListCards films={similarFilms}/>
 
         <Footer />
       </div>

@@ -2,17 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {Provider} from 'react-redux';
 import App from './components/app/app';
-import {FILMS_DATA} from './mocks/films';
 import {reviews} from './mocks/reviews';
 import {store} from './store';
+import ErrorMessage from './components/error-message/error-message';
+import {fetchFilmsAction, checkAuthAction, fetchPromoAction} from './store/api-actions';
 
-const AppProps = {
-  filmPromo: {
-    name: 'The Grand Budapest Hotel',
-    genre: 'Drama',
-    released: 2014,
-  },
-};
+store.dispatch(fetchPromoAction());
+store.dispatch(fetchFilmsAction());
+store.dispatch(checkAuthAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -21,11 +18,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store = {store}>
-      <App
-        filmPromo={AppProps.filmPromo}
-        films={FILMS_DATA}
-        reviews={reviews}
-      />
+      <ErrorMessage />
+      <App reviews={reviews}/>
     </Provider>
   </React.StrictMode>,
 );
