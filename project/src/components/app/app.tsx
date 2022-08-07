@@ -1,4 +1,5 @@
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
+import {useAppSelector} from '../../hooks';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import MainScreen from '../../pages/main-screen/main-screen';
 import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
@@ -8,33 +9,38 @@ import PlayerScreen from '../../pages/player-screen/player-screen';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import {FilmPromo} from '../../types/filmPromo';
-import {Film} from '../../types/films';
 import {Review} from '../../types/reviews';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
-type AppScreenProps = {
-  filmPromo: FilmPromo,
-  films: Film[],
-  reviews: Review[]
-};
+type AppProps = {
+  reviews: Review[];
+}
 
-function App({filmPromo, films, reviews}: AppScreenProps): JSX.Element {
+function App({reviews}: AppProps): JSX.Element {
+  const {films, isDataLoaded} = useAppSelector((state) => state);
+
+  if (!isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainScreen filmPromo={filmPromo} films={films} />}
+          element= {<MainScreen />}
         />
 
         <Route
           path={AppRoute.Film}
-          element={<MoviePageScreen films={films} reviews={reviews} />}
+          element={<MoviePageScreen films={films} reviews={reviews}/>}
         />
 
         <Route
           path={AppRoute.AddReview}
-          element={<AddReviewScreen films={films} />}
+          element={<AddReviewScreen films={films}/>}
         />
 
         <Route
@@ -53,7 +59,7 @@ function App({filmPromo, films, reviews}: AppScreenProps): JSX.Element {
             <PrivateRoute
               authorizationStatus={AuthorizationStatus.NoAuth}
             >
-              <MyListScreen films={films} />
+              <MyListScreen films={films}/>
             </PrivateRoute>
           }
         />

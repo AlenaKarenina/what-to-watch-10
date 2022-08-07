@@ -1,21 +1,16 @@
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
-import {Film} from '../../types/films';
 import FilmsList from '../../components/films-list/films-list';
-import {FilmPromo} from '../../types/filmPromo';
 import IconsPlayer from '../../components/icons-player/icons-player';
 import ShowMoreBtn from '../../components/show-more-btn/show-more-btn';
 import GenresList from '../../components/genres-list/genres-list';
 
 import {useAppSelector} from '../../hooks';
 
-type MainScreenProps = {
-  filmPromo: FilmPromo,
-  films: Film[],
-};
+function MainScreen(): JSX.Element {
+  const {films, filteredFilms, filmsCount} = useAppSelector((state) => state);
 
-function MainScreen({filmPromo, films}: MainScreenProps): JSX.Element {
-  const {filteredFilms, filmsCount} = useAppSelector((state) => state);
+  const filmPromo = useAppSelector((state) => state.promo);
 
   return (
     <>
@@ -23,7 +18,7 @@ function MainScreen({filmPromo, films}: MainScreenProps): JSX.Element {
 
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={filmPromo?.backgroundImage} alt={filmPromo?.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -33,14 +28,14 @@ function MainScreen({filmPromo, films}: MainScreenProps): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={filmPromo?.posterImage} alt={filmPromo?.name} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{filmPromo.name}</h2>
+              <h2 className="film-card__title">{filmPromo?.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{filmPromo.genre}</span>
-                <span className="film-card__year">{filmPromo.released}</span>
+                <span className="film-card__genre">{filmPromo?.genre}</span>
+                <span className="film-card__year">{filmPromo?.released}</span>
               </p>
 
               <div className="film-card__buttons">
