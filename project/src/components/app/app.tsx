@@ -21,7 +21,7 @@ type AppProps = {
 function App({reviews}: AppProps): JSX.Element {
   const {films, isDataLoaded} = useAppSelector((state) => state);
 
-  if (isDataLoaded) {
+  if (!isDataLoaded) {
     return (
       <LoadingScreen />
     );
