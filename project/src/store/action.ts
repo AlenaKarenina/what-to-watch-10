@@ -18,6 +18,4 @@ export const setDataLoadedStatus = createAction<boolean>('data/setDataLoadedStat
 
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 
-export const setError = createAction<string | null>('films/setError');
-
 export const redirectToRoute = createAction<AppRoute>('site/redirectToRoute');

@@ -25,8 +25,6 @@ export const DEFAULT_ACTIVE_GENRE = 'All genres';
 
 export const FILMS_COUNT = 8;
 
-export const TIMEOUT_SHOW_ERROR = 5000;
-
 export enum APIRoute {
   Films = '/films',
   Promo = '/promo',
