@@ -1,7 +1,9 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError} from 'axios';
 import {StatusCodes} from 'http-status-codes';
 import {getToken} from './token';
-import {processErrorHandle} from './process-error-handle';
+import {toast} from 'react-toastify';
+import {store} from '../store';
+import {setAvatarUrl} from '../store/action';
 
 const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,
@@ -36,11 +38,23 @@ export const createAPI = (): AxiosInstance => {
     (response) => response,
     (error: AxiosError) => {
       if (error.response && shouldDisplayError(error.response)) {
-        processErrorHandle(error.response.data.error);
+        toast.warn(error.response.data.error);
       }
 
       throw error;
     }
+  );
+
+  api.interceptors.response.use(
+    (response: AxiosResponse) => {
+      const avatarUrl = response.data.avatarUrl;
+
+      if (avatarUrl) {
+        store.dispatch(setAvatarUrl(avatarUrl));
+      }
+
+      return response;
+    },
   );
 
   return api;

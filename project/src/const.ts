@@ -5,6 +5,7 @@ export enum AppRoute {
   Film = '/films/:id',
   AddReview = '/films/:id/review',
   Player = '/player/:id',
+  NotFound = '*',
 }
 
 export enum AuthorizationStatus {
@@ -24,8 +25,6 @@ export const MORE_LIKE_FILM_COUNT = 4;
 export const DEFAULT_ACTIVE_GENRE = 'All genres';
 
 export const FILMS_COUNT = 8;
-
-export const TIMEOUT_SHOW_ERROR = 5000;
 
 export enum APIRoute {
   Films = '/films',
