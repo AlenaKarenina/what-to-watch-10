@@ -1,7 +1,6 @@
 import Footer from '../../components/footer/footer';
-import Header from '../../components/header/header';
+import Logo from '../../components/logo/logo';
 import IconsPlayer from '../../components/icons-player/icons-player';
-
 import {useRef, FormEvent} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks';
@@ -17,7 +16,6 @@ function SignInScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const {authorizationStatus} = useAppSelector((state) => state);
-
 
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
@@ -39,7 +37,11 @@ function SignInScreen(): JSX.Element {
       <IconsPlayer />
 
       <div className="user-page">
-        <Header />
+
+        <header className="page-header user-page__head">
+          <Logo />
+          <h1 className="page-title user-page__title">Sign in</h1>
+        </header>
 
         <div className="sign-in user-page__content">
           <form
@@ -67,6 +69,7 @@ function SignInScreen(): JSX.Element {
                   placeholder='Password'
                   name='user-password'
                   id='user-password'
+                  minLength={2}
                 />
                 <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
               </div>

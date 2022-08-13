@@ -4,7 +4,7 @@ import {useAppSelector, useAppDispatch} from '../../hooks';
 import {logoutAction} from '../../store/api-actions';
 
 function UserBlock(): JSX.Element {
-  const {authorizationStatus} = useAppSelector((state) => state);
+  const {authorizationStatus, avatarUrl} = useAppSelector((state) => state);
 
   const dispatch = useAppDispatch();
 
@@ -14,7 +14,7 @@ function UserBlock(): JSX.Element {
         <li className="user-block__item">
           <div className="user-block__avatar">
             <img
-              src="img/avatar.jpg"
+              src={avatarUrl as string}
               alt="User avatar"
               width="63"
               height="63"

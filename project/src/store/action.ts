@@ -18,4 +18,6 @@ export const setDataLoadedStatus = createAction<boolean>('data/setDataLoadedStat
 
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 
+export const setAvatarUrl = createAction<string | null>('user/setAvatarUrl');
+
 export const redirectToRoute = createAction<AppRoute>('site/redirectToRoute');
