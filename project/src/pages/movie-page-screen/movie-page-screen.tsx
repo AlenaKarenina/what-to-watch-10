@@ -10,10 +10,10 @@ import IconsPlayer from '../../components/icons-player/icons-player';
 
 type MoviePageScreenProps = {
   films: Film[],
-  reviews: Review[]
+  comments: Review[]
 }
 
-function MoviePageScreen({films, reviews}: MoviePageScreenProps): JSX.Element {
+function MoviePageScreen({films, comments}: MoviePageScreenProps): JSX.Element {
 
   const navigate = useNavigate();
   const params = useParams();
@@ -81,7 +81,7 @@ function MoviePageScreen({films, reviews}: MoviePageScreenProps): JSX.Element {
             </div>
 
             <div className="film-card__desc">
-              <Tabs film={film || null} reviews={reviews}/>
+              <Tabs film={film || null} comments={comments || null}/>
             </div>
           </div>
         </div>

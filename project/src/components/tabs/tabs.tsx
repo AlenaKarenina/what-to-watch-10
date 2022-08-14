@@ -10,10 +10,10 @@ import Reviews from './reviews';
 
 type TabsProps = {
   film: Film,
-  reviews: Review[]
+  comments: Review[]
 }
 
-function Tabs({film,reviews}: TabsProps): JSX.Element {
+function Tabs({film, comments}: TabsProps): JSX.Element {
 
   const [activeTab, setActiveTab] = useState<string>(TabNames.Overview);
 
@@ -35,7 +35,7 @@ function Tabs({film,reviews}: TabsProps): JSX.Element {
 
       {activeTab === TabNames.Details && <Details film={film}/>}
       {activeTab === TabNames.Overview && <Overview film={film}/>}
-      {activeTab === TabNames.Reviews && <Reviews reviews={reviews}/>}
+      {activeTab === TabNames.Reviews && <Reviews comments={comments}/>}
     </>
   );
 }

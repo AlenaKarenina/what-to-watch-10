@@ -9,17 +9,12 @@ import PlayerScreen from '../../pages/player-screen/player-screen';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import {Review} from '../../types/reviews';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
-type AppProps = {
-  reviews: Review[];
-}
-
-function App({reviews}: AppProps): JSX.Element {
-  const {films, isDataLoaded} = useAppSelector((state) => state);
+function App(): JSX.Element {
+  const {films, isDataLoaded, filmComments} = useAppSelector((state) => state);
 
   if (isDataLoaded) {
     return (
@@ -37,12 +32,12 @@ function App({reviews}: AppProps): JSX.Element {
 
         <Route
           path={AppRoute.Film}
-          element={<MoviePageScreen films={films} reviews={reviews}/>}
+          element={<MoviePageScreen films={films} comments={filmComments} />}
         />
 
         <Route
           path={AppRoute.AddReview}
-          element={<AddReviewScreen films={films}/>}
+          element={<AddReviewScreen films={films} />}
         />
 
         <Route
@@ -61,7 +56,7 @@ function App({reviews}: AppProps): JSX.Element {
             <PrivateRoute
               authorizationStatus={AuthorizationStatus.NoAuth}
             >
-              <MyListScreen films={films}/>
+              <MyListScreen films={films} />
             </PrivateRoute>
           }
         />

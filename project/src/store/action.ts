@@ -1,5 +1,6 @@
 import {createAction} from '@reduxjs/toolkit';
 import {Film} from '../types/films';
+import {Review} from '../types/reviews';
 import {AppRoute, AuthorizationStatus} from '../const';
 
 export const setActiveGenre = createAction<string>('setActiveGenre');
@@ -13,6 +14,8 @@ export const increaseFilmsCount = createAction('films/increaseFilmsCount');
 export const loadFilms = createAction<Film[]>('data/loadFilms');
 
 export const loadPromo = createAction<Film>('data/loadPromo');
+
+export const loadFilmComments = createAction<Review[]>('data/loadFilmComments');
 
 export const setDataLoadedStatus = createAction<boolean>('data/setDataLoadedStatus');
 
