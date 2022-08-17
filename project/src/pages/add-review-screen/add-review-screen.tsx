@@ -48,7 +48,7 @@ function AddReviewScreen({films}: AddReviewScreenProps): JSX.Element {
           </div>
         </div>
 
-        <ReviewForm />
+        <ReviewForm filmId={id} />
 
       </section>
     </>

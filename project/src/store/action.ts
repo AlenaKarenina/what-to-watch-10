@@ -25,3 +25,5 @@ export const requireAuthorization = createAction<AuthorizationStatus>('user/requ
 export const setAvatarUrl = createAction<string | null>('user/setAvatarUrl');
 
 export const redirectToRoute = createAction<AppRoute>('site/redirectToRoute');
+
+export const postComment = createAction('data/postComment', (value) => ({payload: value}));

@@ -2,7 +2,8 @@ import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
 import {Film} from '../types/films';
-import {loadFilms, loadPromo, requireAuthorization, setDataLoadedStatus, redirectToRoute, loadSimilarFilms, loadFilm} from './action';
+import CommentData from '../types/comment-data';
+import {loadFilms, loadPromo, requireAuthorization, setDataLoadedStatus, redirectToRoute, loadSimilarFilms, loadFilm, postComment} from './action';
 import {saveToken, dropToken} from '../services/token';
 import {APIRoute, AuthorizationStatus, AppRoute} from '../const';
 import {AuthData} from '../types/auth-data';
@@ -98,5 +99,17 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+  },
+);
+
+export const postCommentAction = createAsyncThunk<void, CommentData, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/postComment',
+  async ({comment, rating, filmId}, {dispatch, extra: api}) => {
+    const {data} = await api.post<CommentData>(`${APIRoute.Comments}${filmId}`, {comment, rating});
+    dispatch(postComment(data));
   },
 );

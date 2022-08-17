@@ -5,6 +5,7 @@ import FilmsList from '../../components/films-list/films-list';
 import IconsPlayer from '../../components/icons-player/icons-player';
 import UserBlock from '../../components/user-block/user-block';
 
+
 type MyListScreenProps = {
   films: Film[];
 }
