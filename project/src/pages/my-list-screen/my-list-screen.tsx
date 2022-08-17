@@ -3,6 +3,7 @@ import Logo from '../../components/logo/logo';
 import {Film} from '../../types/films';
 import FilmsList from '../../components/films-list/films-list';
 import IconsPlayer from '../../components/icons-player/icons-player';
+import UserBlock from '../../components/user-block/user-block';
 
 type MyListScreenProps = {
   films: Film[];
@@ -20,16 +21,7 @@ function MyListScreen({films}: MyListScreenProps): JSX.Element {
 
           <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{films.length}</span></h1>
 
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
-            </li>
-          </ul>
+          <UserBlock/>
         </header>
 
         <section className="catalog">

@@ -1,6 +1,6 @@
 import {Route, Routes} from 'react-router-dom';
 import {useAppSelector} from '../../hooks';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute} from '../../const';
 import MainScreen from '../../pages/main-screen/main-screen';
 import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
 import MoviePageScreen from '../../pages/movie-page-screen/movie-page-screen';
@@ -14,7 +14,7 @@ import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
 function App(): JSX.Element {
-  const {films, isDataLoaded, filmComments} = useAppSelector((state) => state);
+  const {films, isDataLoaded, filmComments, authorizationStatus} = useAppSelector((state) => state);
 
   if (!isDataLoaded) {
     return (
@@ -37,7 +37,13 @@ function App(): JSX.Element {
 
         <Route
           path={AppRoute.AddReview}
-          element={<AddReviewScreen films={films} />}
+          element={
+            <PrivateRoute
+              authorizationStatus={authorizationStatus}
+            >
+              <AddReviewScreen films={films} />
+            </PrivateRoute>
+          }
         />
 
         <Route
@@ -54,7 +60,7 @@ function App(): JSX.Element {
           path={AppRoute.MyList}
           element={
             <PrivateRoute
-              authorizationStatus={AuthorizationStatus.NoAuth}
+              authorizationStatus={authorizationStatus}
             >
               <MyListScreen films={films} />
             </PrivateRoute>

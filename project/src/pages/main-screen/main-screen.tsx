@@ -4,6 +4,8 @@ import FilmsList from '../../components/films-list/films-list';
 import IconsPlayer from '../../components/icons-player/icons-player';
 import ShowMoreBtn from '../../components/show-more-btn/show-more-btn';
 import GenresList from '../../components/genres-list/genres-list';
+import {AppRoute} from '../../const';
+import {useNavigate} from 'react-router-dom';
 
 import {useAppSelector} from '../../hooks';
 
@@ -11,6 +13,12 @@ function MainScreen(): JSX.Element {
   const {films, filteredFilms, filmsCount} = useAppSelector((state) => state);
 
   const filmPromo = useAppSelector((state) => state.promo);
+
+  const navigate = useNavigate();
+
+  const handleMyListBtnClick = () => {
+    navigate(AppRoute.MyList);
+  };
 
   return (
     <>
@@ -45,7 +53,8 @@ function MainScreen(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
+
+                <button className="btn btn--list film-card__button" type="button" onClick={handleMyListBtnClick}>
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
