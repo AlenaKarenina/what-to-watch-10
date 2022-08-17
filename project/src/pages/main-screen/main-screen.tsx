@@ -6,15 +6,20 @@ import ShowMoreBtn from '../../components/show-more-btn/show-more-btn';
 import GenresList from '../../components/genres-list/genres-list';
 import {AppRoute} from '../../const';
 import {useNavigate} from 'react-router-dom';
-
 import {useAppSelector} from '../../hooks';
 
 function MainScreen(): JSX.Element {
   const {films, filteredFilms, filmsCount} = useAppSelector((state) => state);
+  const favoriteFilmsLength = useAppSelector((state) => state.films).filter((filmA) => filmA.isFavorite).length;
 
   const filmPromo = useAppSelector((state) => state.promo);
 
   const navigate = useNavigate();
+
+  const handlerPlayButtonClick = () => {
+    const path = '/player/:1';
+    navigate(path);
+  };
 
   const handleMyListBtnClick = () => {
     navigate(AppRoute.MyList);
@@ -47,7 +52,7 @@ function MainScreen(): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button className="btn btn--play film-card__button" type="button" onClick={handlerPlayButtonClick}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
@@ -59,7 +64,7 @@ function MainScreen(): JSX.Element {
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">{films.length}</span>
+                  <span className="film-card__count">{favoriteFilmsLength}</span>
                 </button>
               </div>
             </div>

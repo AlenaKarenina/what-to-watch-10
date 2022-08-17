@@ -12,7 +12,7 @@ export const increaseFilmsCount = createAction('films/increaseFilmsCount');
 
 export const loadFilms = createAction<Film[]>('data/loadFilms');
 
-//export const loadFilm = createAction('data/loadFilm', (value) => ({payload: value}));
+export const loadFilm = createAction('data/loadFilm', (value) => ({payload: value}));
 
 export const loadSimilarFilms = createAction('data/loadSimilarFilms', (value) => ({payload: value}));
 

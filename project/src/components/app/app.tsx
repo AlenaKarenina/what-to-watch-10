@@ -14,7 +14,7 @@ import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
 function App(): JSX.Element {
-  const {films, isDataLoaded, filmComments, authorizationStatus} = useAppSelector((state) => state);
+  const {films, isDataLoaded, authorizationStatus} = useAppSelector((state) => state);
 
   if (!isDataLoaded) {
     return (
@@ -32,7 +32,7 @@ function App(): JSX.Element {
 
         <Route
           path={AppRoute.Film}
-          element={<MoviePageScreen films={films} comments={filmComments} />}
+          element={<MoviePageScreen />}
         />
 
         <Route
