@@ -1,12 +1,18 @@
+/* eslint-disable no-console */
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import {Film} from '../../types/films';
 import {useParams, Link, useNavigate} from 'react-router-dom';
-import {AppRoute, MORE_LIKE_FILM_COUNT} from '../../const';
+import {AppRoute, MORE_LIKE_FILM_COUNT, APIRoute, AuthorizationStatus} from '../../const';
 import Tabs from '../../components/tabs/tabs';
 import {Review} from '../../types/reviews';
 import SimilarListCards from '../../components/similar-list-cards/similar-list-cards';
 import IconsPlayer from '../../components/icons-player/icons-player';
+import {useEffect, useState} from 'react';
+import {api} from '../../store';
+import {useAppDispatch, useAppSelector} from '../../hooks/';
+import {fetchSimilarFilmsAction} from '../../store/api-actions';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 type MoviePageScreenProps = {
   films: Film[],
@@ -20,6 +26,8 @@ function MoviePageScreen({films, comments}: MoviePageScreenProps): JSX.Element {
   const id = `${(params.id ? params.id.slice(1) : '0')}`;
   const film = films.find((item) => item.id === Number.parseInt(id, 10)) || films[0];
 
+  const [reviews, setReviews] = useState<Review[]>([]);
+
   const similarFilms = films
     .slice(0, MORE_LIKE_FILM_COUNT);
 
@@ -31,6 +39,21 @@ function MoviePageScreen({films, comments}: MoviePageScreenProps): JSX.Element {
   const handleMyListBtnClick = () => {
     navigate(AppRoute.MyList);
   };
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    api.get<Review[]>(`${APIRoute.Comments}/${id}`).then((data) => {
+      setReviews(data.data);
+    });
+    dispatch(fetchSimilarFilmsAction(Number(id)));
+  }, [id]);
+
+  const {authorizationStatus} = useAppSelector((state) => state);
+
+  if (!film) {
+    return <NotFoundScreen/>;
+  }
 
   return (
     <>
@@ -68,7 +91,9 @@ function MoviePageScreen({films, comments}: MoviePageScreenProps): JSX.Element {
                   <span>My list</span>
                   <span className="film-card__count">{films.length}</span>
                 </button>
-                <Link to={`/films/:${film.id}/review`} className="btn film-card__button">Add review</Link>
+
+                {authorizationStatus === AuthorizationStatus.Auth &&
+                  <Link to={`/films/:${film.id}/review`} className="btn film-card__button">Add review</Link>}
               </div>
             </div>
           </div>
@@ -81,7 +106,7 @@ function MoviePageScreen({films, comments}: MoviePageScreenProps): JSX.Element {
             </div>
 
             <div className="film-card__desc">
-              <Tabs film={film || null} comments={comments || null}/>
+              <Tabs film={film} comments={reviews}/>
             </div>
           </div>
         </div>

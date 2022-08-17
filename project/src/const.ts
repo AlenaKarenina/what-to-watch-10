@@ -26,10 +26,19 @@ export const DEFAULT_ACTIVE_GENRE = 'All genres';
 
 export const FILMS_COUNT = 8;
 
+export const RatingRatio = {
+  BAD: 0,
+  NORMAL: 3,
+  GOOD: 5,
+  VERY_GOOD: 8,
+  AWESOME: 10,
+};
+
 export enum APIRoute {
   Films = '/films',
   Promo = '/promo',
   Login = '/login',
   Logout = '/logout',
   Comments = '/comments',
+  Film = '/films/',
 }

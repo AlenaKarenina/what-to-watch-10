@@ -10,26 +10,27 @@ function Details({film}: DetailsProps): JSX.Element {
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Director</strong>
-          <span className="film-card__details-value">{film.director}</span>
+          <span className="film-card__details-value">{film?.director}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Starring</strong>
-          <span className="film-card__details-value">{film.starring}</span>
+          <span className="film-card__details-value">{film?.starring}</span>
         </p>
       </div>
 
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">1h 39m</span>
+          <span className="film-card__details-value">{`${Math.floor(film?.runTime / 60)}h ${film?.runTime % 60}m`}</span>
+          <div></div>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>
-          <span className="film-card__details-value">{film.genre}</span>
+          <span className="film-card__details-value">{film?.genre}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Released</strong>
-          <span className="film-card__details-value">{film.released}</span>
+          <span className="film-card__details-value">{film?.released}</span>
         </p>
       </div>
     </div>

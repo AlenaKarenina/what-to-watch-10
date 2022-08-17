@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {setActiveGenre, getFilteredGenre, resetFilmsCount, increaseFilmsCount, loadFilms, loadPromo, requireAuthorization, setDataLoadedStatus, setAvatarUrl, loadFilmComments} from './action';
+import {setActiveGenre, getFilteredGenre, resetFilmsCount, increaseFilmsCount, loadFilms, loadPromo, requireAuthorization, setDataLoadedStatus, setAvatarUrl, loadSimilarFilms} from './action';
 import {DEFAULT_ACTIVE_GENRE, FILMS_COUNT, AuthorizationStatus} from '../const';
 import {Film} from '../types/films';
 import {Review} from '../types/reviews';
@@ -9,6 +9,8 @@ type InitalState = {
   filteredFilms: Film[];
   filmsCount: number;
   films: Film[],
+  //film: Film | null,
+  similarFilmsList: Film[],
   promo: Film | null,
   filmComments: Review[],
   authorizationStatus: AuthorizationStatus,
@@ -21,6 +23,8 @@ const initialState: InitalState = {
   films: [],
   filteredFilms: [],
   filmsCount: FILMS_COUNT,
+  //film: null,
+  similarFilmsList: [],
   promo: null,
   filmComments: [],
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -47,11 +51,14 @@ const reducer = createReducer(initialState, (builder) => {
       state.filteredFilms = action.payload;
       state.isDataLoaded = true;
     })
+    /*.addCase(loadFilm, (state, action) => {
+      state.film = action.payload;
+    })*/
+    .addCase(loadSimilarFilms, (state, action) => {
+      state.similarFilmsList = action.payload;
+    })
     .addCase(loadPromo, (state, action) => {
       state.promo = action.payload;
-    })
-    .addCase(loadFilmComments, (state, action) => {
-      state.filmComments = action.payload;
     })
     .addCase(setDataLoadedStatus, (state, action) => {
       state.isDataLoaded = action.payload;

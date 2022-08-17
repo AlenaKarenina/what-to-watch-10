@@ -16,7 +16,7 @@ import browserHistory from '../../browser-history';
 function App(): JSX.Element {
   const {films, isDataLoaded, filmComments} = useAppSelector((state) => state);
 
-  if (isDataLoaded) {
+  if (!isDataLoaded) {
     return (
       <LoadingScreen />
     );
