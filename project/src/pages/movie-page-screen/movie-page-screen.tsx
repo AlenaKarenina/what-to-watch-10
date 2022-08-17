@@ -1,9 +1,8 @@
-/* eslint-disable no-console */
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import {Film} from '../../types/films';
 import {useParams, Link, useNavigate} from 'react-router-dom';
-import {AppRoute, MORE_LIKE_FILM_COUNT, APIRoute, AuthorizationStatus} from '../../const';
+import {AppRoute, APIRoute, AuthorizationStatus, MORE_LIKE_FILM_COUNT} from '../../const';
 import Tabs from '../../components/tabs/tabs';
 import {Review} from '../../types/reviews';
 import SimilarListCards from '../../components/similar-list-cards/similar-list-cards';
@@ -28,7 +27,9 @@ function MoviePageScreen({films, comments}: MoviePageScreenProps): JSX.Element {
 
   const [reviews, setReviews] = useState<Review[]>([]);
 
-  const similarFilms = films
+  const similarFilmsList = useAppSelector((state) => state.similarFilmsList);
+
+  const similarFilms = similarFilmsList
     .slice(0, MORE_LIKE_FILM_COUNT);
 
   const handlePlayBtnClick = () => {
