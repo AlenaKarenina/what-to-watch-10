@@ -14,9 +14,9 @@ import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
 function App(): JSX.Element {
-  const {films, isDataLoaded, authorizationStatus} = useAppSelector((state) => state);
+  const {isDataLoaded, authorizationStatus} = useAppSelector((state) => state);
 
-  if (!isDataLoaded) {
+  if (isDataLoaded) {
     return (
       <LoadingScreen />
     );
@@ -41,14 +41,14 @@ function App(): JSX.Element {
             <PrivateRoute
               authorizationStatus={authorizationStatus}
             >
-              <AddReviewScreen films={films} />
+              <AddReviewScreen />
             </PrivateRoute>
           }
         />
 
         <Route
           path={AppRoute.Player}
-          element={<PlayerScreen films={films} />}
+          element={<PlayerScreen />}
         />
 
         <Route
@@ -62,7 +62,7 @@ function App(): JSX.Element {
             <PrivateRoute
               authorizationStatus={authorizationStatus}
             >
-              <MyListScreen films={films} />
+              <MyListScreen />
             </PrivateRoute>
           }
         />

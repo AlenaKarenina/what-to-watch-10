@@ -1,16 +1,15 @@
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
-import {Film} from '../../types/films';
 import FilmsList from '../../components/films-list/films-list';
 import IconsPlayer from '../../components/icons-player/icons-player';
 import UserBlock from '../../components/user-block/user-block';
+import {useAppSelector} from '../../hooks';
 
+function MyListScreen(): JSX.Element {
+  const films = useAppSelector((state) => state.films).filter((film) => film.isFavorite);
 
-type MyListScreenProps = {
-  films: Film[];
-}
+  const favoriteFilmsLength = useAppSelector((state) => state.films).filter((filmA) => filmA.isFavorite).length;
 
-function MyListScreen({films}: MyListScreenProps): JSX.Element {
   return (
     <>
       <IconsPlayer />
@@ -20,7 +19,7 @@ function MyListScreen({films}: MyListScreenProps): JSX.Element {
         <header className="page-header user-page__head">
           <Logo />
 
-          <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{films.length}</span></h1>
+          <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{favoriteFilmsLength}</span></h1>
 
           <UserBlock/>
         </header>
