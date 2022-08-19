@@ -109,7 +109,7 @@ export const postCommentAction = createAsyncThunk<void, CommentData, {
 }>(
   'data/postComment',
   async ({comment, rating, filmId}, {dispatch, extra: api}) => {
-    const {data} = await api.post<CommentData>(`${APIRoute.Comments}${filmId}`, {comment, rating});
+    const {data} = await api.post<CommentData>(`${APIRoute.Comments}/${filmId}`, {comment, rating});
     dispatch(postComment(data));
   },
 );

@@ -1,4 +1,5 @@
-import React, {useState, FormEvent, useEffect} from 'react';
+import React, {useState, FormEvent, useEffect, useMemo} from 'react';
+import {useNavigate} from 'react-router-dom';
 import CommentData from '../../types/comment-data';
 import {useAppDispatch} from '../../hooks';
 import {postCommentAction} from '../../store/api-actions';
@@ -12,6 +13,7 @@ type ReviewFormProps = {
 }
 
 function ReviewForm({filmId}: ReviewFormProps): JSX.Element {
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     rating: '',
@@ -21,13 +23,17 @@ function ReviewForm({filmId}: ReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+  const [isSending, setIsSending] = useState(false);
+
+  const isValid = useMemo(() => formData.rating !== '' && formData.comment.length >= MIN_COMMENT_LENGTH && formData.comment.length <= MAX_COMMENT_LENGTH, [formData.comment.length, formData.rating]);
 
   useEffect(() => {
-    if (formData.rating !== '' && formData.comment.length >= MIN_COMMENT_LENGTH && formData.comment.length <= MAX_COMMENT_LENGTH) {
+    if (isValid) {
       setIsSubmitDisabled(false);
+    } else {
+      setIsSubmitDisabled(true);
     }
-    setIsSubmitDisabled(true);
-  }, [formData.rating, formData.comment.length]);
+  }, [isValid]);
 
   const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const {value} = evt.target;
@@ -39,18 +45,21 @@ function ReviewForm({filmId}: ReviewFormProps): JSX.Element {
     setFormData({...formData, comment: value});
   };
 
-  const onSubmit = (comment: CommentData) => {
-    dispatch(postCommentAction(comment));
-  };
+  const onSubmit = async (comment: CommentData) => await dispatch(postCommentAction(comment));
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if(formData.rating !== '' && formData.comment.length >= MIN_COMMENT_LENGTH && formData.comment.length <= MAX_COMMENT_LENGTH) {
+    setIsSending(true);
+
+    if(isValid) {
       onSubmit({
         rating: formData.rating,
         comment: formData.comment,
         filmId: filmId,
+      }).then((resp) => {
+        setIsSending(false);
+        navigate(`/films/:${filmId}`);
       });
     }
   };
@@ -68,6 +77,7 @@ function ReviewForm({filmId}: ReviewFormProps): JSX.Element {
               ratingValues.map((score) => (
                 <React.Fragment key={score}>
                   <input
+                    disabled={isSending}
                     className="rating__input"
                     id={`star-${score}`}
                     type="radio"
@@ -83,12 +93,12 @@ function ReviewForm({filmId}: ReviewFormProps): JSX.Element {
         </div>
 
         <div className="add-review__text">
-          <textarea onChange={handleTextareaChange} className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text"></textarea>
+          <textarea disabled={isSending} onChange={handleTextareaChange} className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text"></textarea>
           <div className="add-review__submit">
             <button
               className="add-review__btn"
               type="submit"
-              disabled={isSubmitDisabled}
+              disabled={isSubmitDisabled || isSending}
             >
               Post
             </button>
