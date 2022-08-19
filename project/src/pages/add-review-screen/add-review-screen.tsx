@@ -1,14 +1,13 @@
 import Logo from '../../components/logo/logo';
+import UserBlock from '../../components/user-block/user-block';
 import {useParams, Link} from 'react-router-dom';
-import {Film} from '../../types/films';
 import ReviewForm from '../../components/review-form/ReviewForm';
 import IconsPlayer from '../../components/icons-player/icons-player';
+import {useAppSelector} from '../../hooks';
 
-type AddReviewScreenProps = {
-  films: Film[];
-}
+function AddReviewScreen(): JSX.Element {
+  const films = useAppSelector((state) => state.films);
 
-function AddReviewScreen({films}: AddReviewScreenProps): JSX.Element {
   const params = useParams();
   const id = `${(params.id ? params.id.slice(1) : '0')}`;
   const film = films.find((item) => item.id === Number.parseInt(id, 10)) || films[0];
@@ -39,16 +38,7 @@ function AddReviewScreen({films}: AddReviewScreenProps): JSX.Element {
               </ul>
             </nav>
 
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link" href="/">Sign out</a>
-              </li>
-            </ul>
+            <UserBlock/>
           </header>
 
           <div className="film-card__poster film-card__poster--small">
@@ -56,7 +46,7 @@ function AddReviewScreen({films}: AddReviewScreenProps): JSX.Element {
           </div>
         </div>
 
-        <ReviewForm />
+        <ReviewForm filmId={id} />
 
       </section>
     </>

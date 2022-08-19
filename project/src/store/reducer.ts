@@ -1,17 +1,22 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {setActiveGenre, getFilteredGenre, resetFilmsCount, increaseFilmsCount, loadFilms, loadPromo, requireAuthorization, setDataLoadedStatus, setAvatarUrl} from './action';
+import {setActiveGenre, getFilteredGenre, resetFilmsCount, increaseFilmsCount, loadFilms, loadFilm, loadPromo, requireAuthorization, setDataLoadedStatus, setAvatarUrl, loadSimilarFilms} from './action';
 import {DEFAULT_ACTIVE_GENRE, FILMS_COUNT, AuthorizationStatus} from '../const';
 import {Film} from '../types/films';
+import {Review} from '../types/reviews';
 
 type InitalState = {
   activeGenre: string;
   filteredFilms: Film[];
   filmsCount: number;
   films: Film[],
+  film: Film | null,
+  similarFilmsList: Film[],
   promo: Film | null,
+  filmComments: Review[],
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
   avatarUrl: string | null,
+  filmsList: Film[],
 }
 
 const initialState: InitalState = {
@@ -19,10 +24,14 @@ const initialState: InitalState = {
   films: [],
   filteredFilms: [],
   filmsCount: FILMS_COUNT,
+  film: null,
+  similarFilmsList: [],
   promo: null,
+  filmComments: [],
   authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
   avatarUrl: null,
+  filmsList: [],
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -43,6 +52,12 @@ const reducer = createReducer(initialState, (builder) => {
       state.films = action.payload;
       state.filteredFilms = action.payload;
       state.isDataLoaded = true;
+    })
+    .addCase(loadFilm, (state, action) => {
+      state.film = action.payload;
+    })
+    .addCase(loadSimilarFilms, (state, action) => {
+      state.similarFilmsList = action.payload;
     })
     .addCase(loadPromo, (state, action) => {
       state.promo = action.payload;

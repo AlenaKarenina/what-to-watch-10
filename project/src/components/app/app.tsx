@@ -1,6 +1,6 @@
 import {Route, Routes} from 'react-router-dom';
 import {useAppSelector} from '../../hooks';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute} from '../../const';
 import MainScreen from '../../pages/main-screen/main-screen';
 import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
 import MoviePageScreen from '../../pages/movie-page-screen/movie-page-screen';
@@ -9,17 +9,12 @@ import PlayerScreen from '../../pages/player-screen/player-screen';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import {Review} from '../../types/reviews';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
-type AppProps = {
-  reviews: Review[];
-}
-
-function App({reviews}: AppProps): JSX.Element {
-  const {films, isDataLoaded} = useAppSelector((state) => state);
+function App(): JSX.Element {
+  const {isDataLoaded, authorizationStatus} = useAppSelector((state) => state);
 
   if (isDataLoaded) {
     return (
@@ -37,17 +32,23 @@ function App({reviews}: AppProps): JSX.Element {
 
         <Route
           path={AppRoute.Film}
-          element={<MoviePageScreen films={films} reviews={reviews}/>}
+          element={<MoviePageScreen />}
         />
 
         <Route
           path={AppRoute.AddReview}
-          element={<AddReviewScreen films={films}/>}
+          element={
+            <PrivateRoute
+              authorizationStatus={authorizationStatus}
+            >
+              <AddReviewScreen />
+            </PrivateRoute>
+          }
         />
 
         <Route
           path={AppRoute.Player}
-          element={<PlayerScreen films={films} />}
+          element={<PlayerScreen />}
         />
 
         <Route
@@ -59,9 +60,9 @@ function App({reviews}: AppProps): JSX.Element {
           path={AppRoute.MyList}
           element={
             <PrivateRoute
-              authorizationStatus={AuthorizationStatus.NoAuth}
+              authorizationStatus={authorizationStatus}
             >
-              <MyListScreen films={films}/>
+              <MyListScreen />
             </PrivateRoute>
           }
         />

@@ -1,15 +1,18 @@
-import {Film} from '../../types/films';
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
 import IconsPlayer from '../../components/icons-player/icons-player';
+import {useAppSelector} from '../../hooks';
 
-type PlayerScreenProps = {
-  films: Film[],
-}
-
-function PlayerScreen({films}: PlayerScreenProps): JSX.Element {
+function PlayerScreen(): JSX.Element {
+  const films = useAppSelector((state) => state.films);
   const params = useParams();
   const id = `${(params.id ? params.id.slice(1) : '0')}`;
   const film = films.find((item) => item.id === Number.parseInt(id, 10)) || films[0];
+  const navigate = useNavigate();
+
+  const handlerExitButtonClick = () => {
+    const path = `/films/:${film?.id}`;
+    navigate(path);
+  };
 
   return (
     <>
@@ -18,7 +21,7 @@ function PlayerScreen({films}: PlayerScreenProps): JSX.Element {
       <div className="player">
         <video src={film.videoLink} className="player__video" poster={film.backgroundImage}></video>
 
-        <button type="button" className="player__exit">Exit</button>
+        <button type="button" className="player__exit" onClick={handlerExitButtonClick}>Exit</button>
 
         <div className="player__controls">
           <div className="player__controls-row">
