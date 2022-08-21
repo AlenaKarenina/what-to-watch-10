@@ -1,6 +1,6 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {setActiveGenre, getFilteredGenre, resetFilmsCount, increaseFilmsCount, loadFilms, loadFilm, loadPromo, requireAuthorization, setDataLoadedStatus, setAvatarUrl, loadSimilarFilms} from './action';
-import {DEFAULT_ACTIVE_GENRE, FILMS_COUNT, AuthorizationStatus} from '../const';
+import {setActiveGenre, getFilteredGenre, resetFilmsCount, increaseFilmsCount, loadFilms, loadFilm, loadPromo, setDataLoadedStatus, setAvatarUrl, loadSimilarFilms} from './action';
+import {DEFAULT_ACTIVE_GENRE, FILMS_COUNT} from '../const';
 import {Film} from '../types/films';
 import {Review} from '../types/reviews';
 
@@ -13,7 +13,6 @@ type InitalState = {
   similarFilmsList: Film[],
   promo: Film | null,
   filmComments: Review[],
-  authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
   avatarUrl: string | null,
   filmsList: Film[],
@@ -28,7 +27,6 @@ const initialState: InitalState = {
   similarFilmsList: [],
   promo: null,
   filmComments: [],
-  authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
   avatarUrl: null,
   filmsList: [],
@@ -64,9 +62,6 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setDataLoadedStatus, (state, action) => {
       state.isDataLoaded = action.payload;
-    })
-    .addCase(requireAuthorization, (state, action) => {
-      state.authorizationStatus = action.payload;
     })
     .addCase(setAvatarUrl, (state, action) => {
       state.avatarUrl = action.payload;

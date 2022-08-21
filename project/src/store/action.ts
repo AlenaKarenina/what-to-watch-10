@@ -1,6 +1,6 @@
 import {createAction} from '@reduxjs/toolkit';
 import {Film} from '../types/films';
-import {AppRoute, AuthorizationStatus} from '../const';
+import {AppRoute} from '../const';
 
 export const setActiveGenre = createAction<string>('setActiveGenre');
 
@@ -19,8 +19,6 @@ export const loadSimilarFilms = createAction('data/loadSimilarFilms', (value) =>
 export const loadPromo = createAction<Film>('data/loadPromo');
 
 export const setDataLoadedStatus = createAction<boolean>('data/setDataLoadedStatus');
-
-export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 
 export const setAvatarUrl = createAction<string | null>('user/setAvatarUrl');
 

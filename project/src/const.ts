@@ -42,3 +42,9 @@ export enum APIRoute {
   Comments = '/comments',
   Film = '/films/',
 }
+
+export enum NameSpace {
+  Site = 'SITE',
+  Data = 'DATA',
+  User = 'USER',
+}
