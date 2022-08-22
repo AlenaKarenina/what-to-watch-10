@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace, FILMS_COUNT, DEFAULT_ACTIVE_GENRE} from '../../const';
 import {SiteData} from '../../types/state';
 import {fetchFilmsAction, fetchFilmAction, fetchSimilarFilmsAction, fetchPromoAction, postCommentAction} from './../api-actions';
+import {setActiveGenre, getFilteredGenre, resetFilmsCount, increaseFilmsCount} from '../action';
 
 const initialState: SiteData = {
   activeGenre: DEFAULT_ACTIVE_GENRE,
@@ -28,7 +29,7 @@ export const siteData = createSlice({
       .addCase(fetchFilmsAction.fulfilled, (state, action) => {
         state.films = action.payload;
         state.filteredFilms = action.payload;
-        state.isDataLoaded = true;
+        state.isDataLoaded = false;
       })
       .addCase(fetchFilmAction.pending, (state) => {
         state.isDataLoaded = true;
@@ -56,6 +57,17 @@ export const siteData = createSlice({
       })
       .addCase(postCommentAction.fulfilled, (state) => {
         state.isDataLoaded = false;
+      }).addCase(setActiveGenre, (state, action) => {
+        state.activeGenre = action.payload;
+      })
+      .addCase(getFilteredGenre, (state) => {
+        state.filteredFilms = state.activeGenre === DEFAULT_ACTIVE_GENRE ? state.films : state.films.filter((item) => item.genre === state.activeGenre);
+      })
+      .addCase(resetFilmsCount, (state) => {
+        state.filmsCount = FILMS_COUNT;
+      })
+      .addCase(increaseFilmsCount, (state) => {
+        state.filmsCount += FILMS_COUNT;
       });
   },
 });

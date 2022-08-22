@@ -1,18 +1,21 @@
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
-import FilmsList from '../../components/films-list/films-list';
+//import FilmsList from '../../components/films-list/films-list';
 import IconsPlayer from '../../components/icons-player/icons-player';
-import ShowMoreBtn from '../../components/show-more-btn/show-more-btn';
+//import ShowMoreBtn from '../../components/show-more-btn/show-more-btn';
 import GenresList from '../../components/genres-list/genres-list';
 import {AppRoute} from '../../const';
 import {useNavigate} from 'react-router-dom';
 import {useAppSelector} from '../../hooks';
+import {getFilms, getPromoFilm} from '../../store/site-data/selectors';
 
 function MainScreen(): JSX.Element {
-  const {films, filteredFilms, filmsCount} = useAppSelector((state) => state);
-  const favoriteFilmsLength = useAppSelector((state) => state.films).filter((filmA) => filmA.isFavorite).length;
+  //const {films, filteredFilms, filmsCount} = useAppSelector((state) => state);
+  //const favoriteFilmsLength = useAppSelector((state) => state.films).filter((filmA) => filmA.isFavorite).length;
 
-  const filmPromo = useAppSelector((state) => state.promo);
+  //const films = useAppSelector(getFilms);
+  const filmPromo = useAppSelector(getPromoFilm);
+  const films = useAppSelector(getFilms).filter((film) => film.isFavorite);
 
   const navigate = useNavigate();
 
@@ -64,7 +67,7 @@ function MainScreen(): JSX.Element {
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">{favoriteFilmsLength}</span>
+                  <span className="film-card__count">{films.length}</span>
                 </button>
               </div>
             </div>
@@ -78,9 +81,6 @@ function MainScreen(): JSX.Element {
 
           <GenresList films={films}/>
 
-          <FilmsList films={filteredFilms.slice(0, filmsCount)}/>
-
-          {((filteredFilms.length - filmsCount) > 0) && <ShowMoreBtn/>}
         </section>
 
         <Footer />

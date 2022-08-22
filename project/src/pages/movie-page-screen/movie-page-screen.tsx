@@ -11,6 +11,8 @@ import {api} from '../../store';
 import {useAppDispatch, useAppSelector} from '../../hooks/';
 import {fetchSimilarFilmsAction, fetchFilmAction} from '../../store/api-actions';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import {getSimilarFilmsList, getFilm} from '../../store/site-data/selectors';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
 
 function MoviePageScreen(): JSX.Element {
 
@@ -20,9 +22,11 @@ function MoviePageScreen(): JSX.Element {
 
   const [reviews, setReviews] = useState<Review[]>([]);
 
-  const {authorizationStatus, similarFilmsList, film} = useAppSelector((state) => state);
+  const similarFilmsList = useAppSelector(getSimilarFilmsList);
+  const film = useAppSelector(getFilm);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
-  const favoriteFilmsLength = useAppSelector((state) => state.films).filter((filmA) => filmA.isFavorite).length;
+  //const favoriteFilmsLength = useAppSelector((state) => state.films).filter((filmA) => filmA.isFavorite).length;
 
   const similarFilms = similarFilmsList
     .slice(0, MORE_LIKE_FILM_COUNT);
@@ -84,7 +88,7 @@ function MoviePageScreen(): JSX.Element {
                     <use xlinkHref="#in-list"></use>
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">{favoriteFilmsLength}</span>
+                  <span className="film-card__count"></span>
                 </button>
 
                 {authorizationStatus === AuthorizationStatus.Auth &&

@@ -1,9 +1,11 @@
 import {useParams, useNavigate} from 'react-router-dom';
 import IconsPlayer from '../../components/icons-player/icons-player';
 import {useAppSelector} from '../../hooks';
+import {getFilms} from '../../store/site-data/selectors';
 
 function PlayerScreen(): JSX.Element {
-  const films = useAppSelector((state) => state.films);
+
+  const films = useAppSelector(getFilms);
   const params = useParams();
   const id = `${(params.id ? params.id.slice(1) : '0')}`;
   const film = films.find((item) => item.id === Number.parseInt(id, 10)) || films[0];
@@ -19,7 +21,7 @@ function PlayerScreen(): JSX.Element {
       <IconsPlayer />
 
       <div className="player">
-        <video src={film.videoLink} className="player__video" poster={film.backgroundImage}></video>
+        <video src={film?.videoLink} className="player__video" poster={film?.backgroundImage}></video>
 
         <button type="button" className="player__exit" onClick={handlerExitButtonClick}>Exit</button>
 
