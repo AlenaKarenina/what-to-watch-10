@@ -26,8 +26,6 @@ function MoviePageScreen(): JSX.Element {
   const film = useAppSelector(getFilm);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
-  //const favoriteFilmsLength = useAppSelector((state) => state.films).filter((filmA) => filmA.isFavorite).length;
-
   const similarFilms = similarFilmsList
     .slice(0, MORE_LIKE_FILM_COUNT);
 
@@ -48,7 +46,7 @@ function MoviePageScreen(): JSX.Element {
     });
     dispatch(fetchFilmAction(Number(id)));
     dispatch(fetchSimilarFilmsAction(Number(id)));
-  }, [id]);
+  }, [id, dispatch]);
 
   if (!film) {
     return <NotFoundScreen/>;

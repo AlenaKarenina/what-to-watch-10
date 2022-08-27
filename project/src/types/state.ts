@@ -8,7 +8,6 @@ export type UserProcess = {
 };
 
 export type SiteData = {
-  filmsList: Film[],
   film: Film | null,
   similarFilmsList: Film[],
   promo: Film | null,

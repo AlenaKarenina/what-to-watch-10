@@ -6,6 +6,7 @@ import {getFilms} from '../../store/site-data/selectors';
 function PlayerScreen(): JSX.Element {
 
   const films = useAppSelector(getFilms);
+
   const params = useParams();
   const id = `${(params.id ? params.id.slice(1) : '0')}`;
   const film = films.find((item) => item.id === Number.parseInt(id, 10)) || films[0];

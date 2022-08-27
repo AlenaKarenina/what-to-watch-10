@@ -13,8 +13,7 @@ const initialState: SiteData = {
   similarFilmsList: [],
   promo: null,
   filmComments: [],
-  filmsList: [],
-  isDataLoaded: true,
+  isDataLoaded: false,
 };
 
 export const siteData = createSlice({
@@ -57,7 +56,9 @@ export const siteData = createSlice({
       })
       .addCase(postCommentAction.fulfilled, (state) => {
         state.isDataLoaded = false;
-      }).addCase(setActiveGenre, (state, action) => {
+      })
+
+      .addCase(setActiveGenre, (state, action) => {
         state.activeGenre = action.payload;
       })
       .addCase(getFilteredGenre, (state) => {
