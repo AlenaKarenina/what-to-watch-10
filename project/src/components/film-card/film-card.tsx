@@ -17,7 +17,7 @@ function FilmCard({film, setActive, activeFilmCard}: FilmCardProps): JSX.Element
 
     timer = setTimeout(() => {
       setActive(film.id);
-    }, 1000);
+    }, 100);
   };
 
   const handleMouseLeave = () => {

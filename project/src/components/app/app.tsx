@@ -19,63 +19,61 @@ function App(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isDataLoaded = useAppSelector(getLoadedDataStatus);
 
-  if (isDataLoaded) {
-    return (
-      <LoadingScreen />
-    );
-  }
-
   return (
-    <HistoryRouter history={browserHistory}>
-      <Routes>
-        <Route
-          path={AppRoute.Main}
-          element= {<MainScreen />}
-        />
+    <div>
+      {isDataLoaded && <LoadingScreen />}
 
-        <Route
-          path={AppRoute.Film}
-          element={<MoviePageScreen />}
-        />
+      <HistoryRouter history={browserHistory}>
+        <Routes>
+          <Route
+            path={AppRoute.Main}
+            element= {<MainScreen />}
+          />
 
-        <Route
-          path={AppRoute.AddReview}
-          element={
-            <PrivateRoute
-              authorizationStatus={authorizationStatus}
-            >
-              <AddReviewScreen />
-            </PrivateRoute>
-          }
-        />
+          <Route
+            path={AppRoute.Film}
+            element={<MoviePageScreen />}
+          />
 
-        <Route
-          path={AppRoute.Player}
-          element={<PlayerScreen />}
-        />
+          <Route
+            path={AppRoute.AddReview}
+            element={
+              <PrivateRoute
+                authorizationStatus={authorizationStatus}
+              >
+                <AddReviewScreen />
+              </PrivateRoute>
+            }
+          />
 
-        <Route
-          path={AppRoute.SignIn}
-          element={<SignInScreen />}
-        />
+          <Route
+            path={AppRoute.Player}
+            element={<PlayerScreen />}
+          />
 
-        <Route
-          path={AppRoute.MyList}
-          element={
-            <PrivateRoute
-              authorizationStatus={authorizationStatus}
-            >
-              <MyListScreen />
-            </PrivateRoute>
-          }
-        />
+          <Route
+            path={AppRoute.SignIn}
+            element={<SignInScreen />}
+          />
 
-        <Route
-          path={AppRoute.NotFound}
-          element={<NotFoundScreen />}
-        />
-      </Routes>
-    </HistoryRouter>
+          <Route
+            path={AppRoute.MyList}
+            element={
+              <PrivateRoute
+                authorizationStatus={authorizationStatus}
+              >
+                <MyListScreen />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path={AppRoute.NotFound}
+            element={<NotFoundScreen />}
+          />
+        </Routes>
+      </HistoryRouter>
+    </div>
   );
 }
 

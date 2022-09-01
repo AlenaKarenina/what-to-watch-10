@@ -13,7 +13,7 @@ type GenresListProps = {
 function GenresList({films}: GenresListProps): JSX.Element {
 
   const dispatch = useAppDispatch();
-  const {activeGenre} = useAppSelector(getGenre);
+  const activeGenre = useAppSelector(getGenre);
 
   const genres = [DEFAULT_ACTIVE_GENRE, ...new Set(films.map((item) => item.genre))];
 

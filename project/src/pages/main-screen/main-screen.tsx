@@ -17,7 +17,7 @@ function MainScreen(): JSX.Element {
   const filmsCount = useAppSelector(getFilmsCount);
   const filmPromo = useAppSelector(getPromoFilm);
 
-  const films = useAppSelector(getFilms).filter((film) => film.isFavorite);
+  const films = useAppSelector(getFilms);
 
   const navigate = useNavigate();
 
