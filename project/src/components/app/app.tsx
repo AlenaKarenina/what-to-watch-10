@@ -20,7 +20,7 @@ function App(): JSX.Element {
   const isDataLoaded = useAppSelector(getLoadedDataStatus);
 
   return (
-    <div>
+    <>
       {isDataLoaded && <LoadingScreen />}
 
       <HistoryRoute history={browserHistory}>
@@ -73,7 +73,7 @@ function App(): JSX.Element {
           />
         </Routes>
       </HistoryRoute>
-    </div>
+    </>
   );
 }
 

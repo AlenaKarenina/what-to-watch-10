@@ -8,6 +8,7 @@ import {AppRoute} from '../../const';
 import {useNavigate} from 'react-router-dom';
 import {useAppSelector} from '../../hooks';
 import {getFilms, getPromoFilm, getFilmsCount, getFilteredFilms} from '../../store/site-data/selectors';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 function MainScreen(): JSX.Element {
 
@@ -29,6 +30,14 @@ function MainScreen(): JSX.Element {
   const handleMyListBtnClick = () => {
     navigate(AppRoute.MyList);
   };
+
+  if (!films) {
+    return <NotFoundScreen/>;
+  }
+
+  if (!filmPromo) {
+    return <NotFoundScreen/>;
+  }
 
   return (
     <>
