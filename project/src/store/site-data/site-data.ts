@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace, FILMS_COUNT, DEFAULT_ACTIVE_GENRE} from '../../const';
 import {SiteData} from '../../types/state';
-import {fetchFilmsAction, fetchFilmAction, fetchSimilarFilmsAction, fetchPromoAction, postCommentAction} from './../api-actions';
+import {fetchFilmsAction, fetchFilmAction, fetchSimilarFilmsAction, fetchPromoAction, postCommentAction, fetchFavoriteFilmsAction, changeFilmStatusAction} from './../api-actions';
 import {setActiveGenre, getFilteredGenre, resetFilmsCount, increaseFilmsCount} from '../action';
 
 const initialState: SiteData = {
@@ -14,12 +14,18 @@ const initialState: SiteData = {
   promo: null,
   filmComments: [],
   isDataLoaded: false,
+  favoriteFilmsList: [],
+  isFavoriteStatusChanged: false,
 };
 
 export const siteData = createSlice({
   name: NameSpace.Data,
   initialState,
-  reducers: {},
+  reducers: {
+    resetFavoriteStatus: (state, action) => {
+      state.isFavoriteStatusChanged = action.payload;
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchFilmsAction.pending, (state) => {
@@ -57,7 +63,6 @@ export const siteData = createSlice({
       .addCase(postCommentAction.fulfilled, (state) => {
         state.isDataLoaded = false;
       })
-
       .addCase(setActiveGenre, (state, action) => {
         state.activeGenre = action.payload;
       })
@@ -69,6 +74,21 @@ export const siteData = createSlice({
       })
       .addCase(increaseFilmsCount, (state) => {
         state.filmsCount += FILMS_COUNT;
+      })
+      .addCase(fetchFavoriteFilmsAction.pending, (state) => {
+        state.isDataLoaded = true;
+      })
+      .addCase(fetchFavoriteFilmsAction.fulfilled, (state, action) => {
+        state.favoriteFilmsList = action.payload;
+        state.isDataLoaded = false;
+      })
+      .addCase(changeFilmStatusAction.pending, (state) => {
+        state.isFavoriteStatusChanged = false;
+      })
+      .addCase(changeFilmStatusAction.fulfilled, (state) => {
+        state.isFavoriteStatusChanged = true;
       });
   },
 });
+
+export const {resetFavoriteStatus} = siteData.actions;

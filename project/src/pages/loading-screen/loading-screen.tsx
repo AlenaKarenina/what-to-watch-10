@@ -15,7 +15,7 @@ function LoadingScreen(): JSX.Element {
         textTransform: 'uppercase',
         fontSize: '56px',
         fontWeight: '700',
-        color: 'pink',
+        color: '#fd612ead',
       }}
     >Loading ...
     </div>

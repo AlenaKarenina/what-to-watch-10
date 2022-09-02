@@ -12,3 +12,5 @@ export const getFilteredGenre = createAction('films/getFilteredGenre');
 export const resetFilmsCount = createAction('films/resetFilmsCount');
 
 export const increaseFilmsCount = createAction('films/increaseFilmsCount');
+
+export const changeFilmStatus = createAction('data/changeFilmStatus', (value) => ({payload: value}));

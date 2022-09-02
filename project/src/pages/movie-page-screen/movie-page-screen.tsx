@@ -9,10 +9,12 @@ import IconsPlayer from '../../components/icons-player/icons-player';
 import {useEffect, useState} from 'react';
 import {api} from '../../store';
 import {useAppDispatch, useAppSelector} from '../../hooks/';
-import {fetchSimilarFilmsAction, fetchFilmAction} from '../../store/api-actions';
+import {fetchSimilarFilmsAction, fetchFilmAction, fetchFavoriteFilmsAction, changeFilmStatusAction} from '../../store/api-actions';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
-import {getSimilarFilmsList, getFilm} from '../../store/site-data/selectors';
+import {getSimilarFilmsList, getFilm, getFavoriteFilms, getFavoriteStatusChange} from '../../store/site-data/selectors';
+import {resetFavoriteStatus} from '../../store/site-data/site-data';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import {redirectToRoute} from '../../store/action';
 
 function MoviePageScreen(): JSX.Element {
 
@@ -26,16 +28,15 @@ function MoviePageScreen(): JSX.Element {
   const film = useAppSelector(getFilm);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
+  const favoriteChangeStatus = useAppSelector(getFavoriteStatusChange);
+
   const similarFilms = similarFilmsList
     .slice(0, MORE_LIKE_FILM_COUNT);
 
   const handlePlayBtnClick = () => {
     const path = `/player/:${film?.id}`;
     navigate(path);
-  };
-
-  const handleMyListBtnClick = () => {
-    navigate(AppRoute.MyList);
   };
 
   const dispatch = useAppDispatch();
@@ -46,11 +47,41 @@ function MoviePageScreen(): JSX.Element {
     });
     dispatch(fetchFilmAction(Number(id)));
     dispatch(fetchSimilarFilmsAction(Number(id)));
+    dispatch(fetchFavoriteFilmsAction());
   }, [id, dispatch]);
+
+  useEffect(() => {
+    if (favoriteChangeStatus) {
+      dispatch(fetchFavoriteFilmsAction());
+      dispatch(fetchFilmAction(Number(id)));
+      dispatch(resetFavoriteStatus(false));
+    }
+  }, [dispatch, id, favoriteChangeStatus]);
 
   if (!film) {
     return <NotFoundScreen/>;
   }
+
+  //Обновление кнопки My list
+  const getFavoriteIcon = (status: boolean): JSX.Element => {
+    if (status) {
+      return (
+        <svg viewBox="0 0 18 14" width="18" height="14">
+          <use xlinkHref="#in-list"></use>
+        </svg>
+      );
+    }
+    return (
+      <svg viewBox="0 0 19 20" width="19" height="20">
+        <use xlinkHref="#add"></use>
+      </svg>
+    );
+  };
+  const favoriteIcon = getFavoriteIcon(film?.isFavorite);
+
+  //Получение количества фильмов, добавленных к просмотру
+  const getFilmsCountRender = (favoriteFilmsCount: number) => favoriteFilmsCount === 0 ? 0 : favoriteFilmsCount;
+  const filmsFavoriteCount = getFilmsCountRender(favoriteFilms.length ?? 0);
 
   return (
     <>
@@ -81,12 +112,23 @@ function MoviePageScreen(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button" onClick={handleMyListBtnClick}>
-                  <svg viewBox="0 0 18 14" width="18" height="14">
-                    <use xlinkHref="#in-list"></use>
-                  </svg>
+
+                <button
+                  className="btn btn--list film-card__button"
+                  type="button"
+                  onClick={() => {
+                    if (authorizationStatus !== AuthorizationStatus.Auth) {
+                      dispatch(redirectToRoute(AppRoute.SignIn));
+                    }
+                    dispatch(changeFilmStatusAction({
+                      filmId: film?.id,
+                      status: Number(!film.isFavorite),
+                    }));
+                  }}
+                >
+                  {favoriteIcon}
                   <span>My list</span>
-                  <span className="film-card__count"></span>
+                  <span className="film-card__count">{filmsFavoriteCount}</span>
                 </button>
 
                 {authorizationStatus === AuthorizationStatus.Auth &&

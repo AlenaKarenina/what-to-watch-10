@@ -4,21 +4,26 @@ import FilmsList from '../../components/films-list/films-list';
 import IconsPlayer from '../../components/icons-player/icons-player';
 import ShowMoreBtn from '../../components/show-more-btn/show-more-btn';
 import GenresList from '../../components/genres-list/genres-list';
-import {AppRoute} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
 import {useNavigate} from 'react-router-dom';
-import {useAppSelector} from '../../hooks';
-import {getFilms, getPromoFilm, getFilmsCount, getFilteredFilms} from '../../store/site-data/selectors';
+import {useAppSelector, useAppDispatch} from '../../hooks';
+import {getFilms, getPromoFilm, getFilmsCount, getFilteredFilms, getFavoriteFilms, getFavoriteStatusChange} from '../../store/site-data/selectors';
+import {fetchFavoriteFilmsAction, changeFilmStatusAction, fetchPromoAction} from '../../store/api-actions';
+import {resetFavoriteStatus} from '../../store/site-data/site-data';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import {useEffect} from 'react';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import {redirectToRoute} from '../../store/action';
 
 function MainScreen(): JSX.Element {
-
-  const favoriteFilmsLength = useAppSelector(getFilms).filter((filmA) => filmA.isFavorite).length;
 
   const filteredFilms = useAppSelector(getFilteredFilms);
   const filmsCount = useAppSelector(getFilmsCount);
   const filmPromo = useAppSelector(getPromoFilm);
-
   const films = useAppSelector(getFilms);
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
+  const favoriteChangeStatus = useAppSelector(getFavoriteStatusChange);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const navigate = useNavigate();
 
@@ -27,9 +32,18 @@ function MainScreen(): JSX.Element {
     navigate(path);
   };
 
-  const handleMyListBtnClick = () => {
-    navigate(AppRoute.MyList);
-  };
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (favoriteChangeStatus) {
+      dispatch(fetchPromoAction());
+      dispatch(fetchFavoriteFilmsAction());
+      dispatch(resetFavoriteStatus(true));
+    }
+    else {
+      dispatch(fetchFavoriteFilmsAction());
+    }
+  }, [dispatch, favoriteChangeStatus]);
 
   if (!films) {
     return <NotFoundScreen/>;
@@ -38,6 +52,27 @@ function MainScreen(): JSX.Element {
   if (!filmPromo) {
     return <NotFoundScreen/>;
   }
+
+  //Обновление кнопки My list
+  const getFavoriteIcon = (status: boolean): JSX.Element => {
+    if (status) {
+      return (
+        <svg viewBox="0 0 18 14" width="18" height="14">
+          <use xlinkHref="#in-list"></use>
+        </svg>
+      );
+    }
+    return (
+      <svg viewBox="0 0 19 20" width="19" height="20">
+        <use xlinkHref="#add"></use>
+      </svg>
+    );
+  };
+  const favoriteIcon = getFavoriteIcon(filmPromo?.isFavorite);
+
+  //Получение количества фильмов, добавленных к просмотру
+  const getFilmsCountRender = (favoriteFilmsCount: number) => favoriteFilmsCount === 0 ? 0 : favoriteFilmsCount;
+  const filmsFavoriteCount = getFilmsCountRender(favoriteFilms.length ?? 0);
 
   return (
     <>
@@ -73,12 +108,22 @@ function MainScreen(): JSX.Element {
                   <span>Play</span>
                 </button>
 
-                <button className="btn btn--list film-card__button" type="button" onClick={handleMyListBtnClick}>
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
+                <button
+                  className="btn btn--list film-card__button"
+                  type="button"
+                  onClick={() => {
+                    if (authorizationStatus !== AuthorizationStatus.Auth) {
+                      dispatch(redirectToRoute(AppRoute.SignIn));
+                    }
+                    dispatch(changeFilmStatusAction({
+                      filmId: filmPromo?.id,
+                      status: Number(!filmPromo?.isFavorite),
+                    }));
+                  }}
+                >
+                  {favoriteIcon}
                   <span>My list</span>
-                  <span className="film-card__count">{favoriteFilmsLength}</span>
+                  <span className="film-card__count">{filmsFavoriteCount}</span>
                 </button>
               </div>
             </div>

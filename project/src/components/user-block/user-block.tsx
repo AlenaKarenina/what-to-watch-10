@@ -1,5 +1,5 @@
 import {Link} from 'react-router-dom';
-import {AuthorizationStatus} from '../../const';
+import {AuthorizationStatus, AppRoute} from '../../const';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import {logoutAction} from '../../store/api-actions';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
@@ -16,12 +16,14 @@ function UserBlock(): JSX.Element {
       <ul className="user-block">
         <li className="user-block__item">
           <div className="user-block__avatar">
-            <img
-              src={avatarUrl as string}
-              alt="User avatar"
-              width="63"
-              height="63"
-            />
+            <Link to={AppRoute.MyList}>
+              <img
+                src={avatarUrl as string}
+                alt="User avatar"
+                width="63"
+                height="63"
+              />
+            </Link>
           </div>
         </li>
         <li className="user-block__item">

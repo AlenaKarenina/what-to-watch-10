@@ -17,6 +17,8 @@ export type SiteData = {
   filmsCount: number,
   filmComments: Review[],
   activeGenre: string,
+  favoriteFilmsList: Film[],
+  isFavoriteStatusChanged: boolean,
 }
 
 export type SiteProcess = {
