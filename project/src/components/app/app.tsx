@@ -10,7 +10,7 @@ import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
-import HistoryRouter from '../history-route/history-route';
+import HistoryRoute from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
 import {getLoadedDataStatus} from '../../store/site-data/selectors';
@@ -23,7 +23,7 @@ function App(): JSX.Element {
     <div>
       {isDataLoaded && <LoadingScreen />}
 
-      <HistoryRouter history={browserHistory}>
+      <HistoryRoute history={browserHistory}>
         <Routes>
           <Route
             path={AppRoute.Main}
@@ -72,7 +72,7 @@ function App(): JSX.Element {
             element={<NotFoundScreen />}
           />
         </Routes>
-      </HistoryRouter>
+      </HistoryRoute>
     </div>
   );
 }
