@@ -40,7 +40,7 @@ function FilmCard({film, setActive, activeFilmCard}: FilmCardProps): JSX.Element
       onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
     >
       <div className={`small-film-card__image ${isActive ? 'small-film-card__image--active' : '' }`}>
-        <img src={film.posterImage} alt="video" />
+        <img className="small-film-card__poster" src={film.posterImage} alt="video" />
         <VideoPlayer
           width="280"
           height="175"

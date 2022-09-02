@@ -1441,7 +1441,7 @@ main {
   background: #fd612ead;
   border-radius: 15px; }
 
-.small-film-card__image img {
+  .small-film-card__image .small-film-card__poster {
   opacity:0;
   object-fit:contain;
   position:absolute;
@@ -1450,7 +1450,7 @@ main {
   width:100%;
   height:100%;
 }
-.small-film-card__image--active img {
+.small-film-card__image--active .small-film-card__poster {
   opacity: 1;
 }
 .small-film-card__image--active video {
