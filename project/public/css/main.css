@@ -1440,3 +1440,19 @@ main {
   color: #fff;
   background: #fd612ead;
   border-radius: 15px; }
+
+.small-film-card__image img {
+  opacity:0;
+  object-fit:contain;
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
+.small-film-card__image--active img {
+  opacity: 1;
+}
+.small-film-card__image--active video {
+  opacity: 0;
+}
