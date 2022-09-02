@@ -6,7 +6,7 @@ import {store} from './store';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import {fetchPromoAction, fetchFilmsAction} from './store/api-actions';
+import {fetchPromoAction, fetchFilmsAction, checkAuthAction} from './store/api-actions';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -14,6 +14,7 @@ const root = ReactDOM.createRoot(
 
 store.dispatch(fetchPromoAction());
 store.dispatch(fetchFilmsAction());
+store.dispatch(checkAuthAction());
 
 root.render(
   <React.StrictMode>

@@ -51,10 +51,16 @@ function MoviePageScreen(): JSX.Element {
   }, [id, dispatch]);
 
   useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(fetchFavoriteFilmsAction());
+    }
+  }, [dispatch, authorizationStatus]);
+
+  useEffect(() => {
     if (favoriteChangeStatus) {
       dispatch(fetchFavoriteFilmsAction());
       dispatch(fetchFilmAction(Number(id)));
-      dispatch(resetFavoriteStatus(false));
+      dispatch(resetFavoriteStatus(true));
     }
   }, [dispatch, id, favoriteChangeStatus]);
 
