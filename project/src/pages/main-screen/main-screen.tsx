@@ -35,13 +35,16 @@ function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(fetchFavoriteFilmsAction());
+    }
+  }, [dispatch, authorizationStatus]);
+
+  useEffect(() => {
     if (favoriteChangeStatus) {
       dispatch(fetchPromoAction());
       dispatch(fetchFavoriteFilmsAction());
       dispatch(resetFavoriteStatus(true));
-    }
-    else {
-      dispatch(fetchFavoriteFilmsAction());
     }
   }, [dispatch, favoriteChangeStatus]);
 
