@@ -8,7 +8,7 @@ import {AppRoute, AuthorizationStatus} from '../../const';
 import {useNavigate} from 'react-router-dom';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import {getFilms, getPromoFilm, getFilmsCount, getFilteredFilms, getFavoriteFilms, getFavoriteStatusChange} from '../../store/site-data/selectors';
-import {fetchFavoriteFilmsAction, changeFilmStatusAction, fetchPromoAction} from '../../store/api-actions';
+import {fetchFavoriteFilmsAction, changeFilmStatusAction, fetchPromoAction, fetchFilmsAction} from '../../store/api-actions';
 import {resetFavoriteStatus} from '../../store/site-data/site-data';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {useEffect} from 'react';
@@ -42,10 +42,11 @@ function MainScreen(): JSX.Element {
 
   useEffect(() => {
     if (favoriteChangeStatus) {
-      dispatch(fetchPromoAction());
       dispatch(fetchFavoriteFilmsAction());
       dispatch(resetFavoriteStatus(true));
     }
+    dispatch(fetchPromoAction());
+    dispatch(fetchFilmsAction());
   }, [dispatch, favoriteChangeStatus]);
 
   if (!films) {

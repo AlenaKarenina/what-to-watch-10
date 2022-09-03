@@ -6,15 +6,16 @@ import {store} from './store';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import {fetchPromoAction, fetchFilmsAction, checkAuthAction} from './store/api-actions';
+import {checkAuthAction} from './store/api-actions';
+import { getToken } from './services/token';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
-store.dispatch(fetchPromoAction());
-store.dispatch(fetchFilmsAction());
-store.dispatch(checkAuthAction());
+if(getToken()) {
+  store.dispatch(checkAuthAction());
+}
 
 root.render(
   <React.StrictMode>
@@ -22,5 +23,5 @@ root.render(
       <ToastContainer />
       <App />
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );

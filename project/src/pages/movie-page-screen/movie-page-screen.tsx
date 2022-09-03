@@ -47,7 +47,6 @@ function MoviePageScreen(): JSX.Element {
     });
     dispatch(fetchFilmAction(Number(id)));
     dispatch(fetchSimilarFilmsAction(Number(id)));
-    dispatch(fetchFavoriteFilmsAction());
   }, [id, dispatch]);
 
   useEffect(() => {
@@ -58,7 +57,6 @@ function MoviePageScreen(): JSX.Element {
 
   useEffect(() => {
     if (favoriteChangeStatus) {
-      dispatch(fetchFavoriteFilmsAction());
       dispatch(fetchFilmAction(Number(id)));
       dispatch(resetFavoriteStatus(true));
     }
