@@ -3,16 +3,19 @@ import ReactDOM from 'react-dom/client';
 import {Provider} from 'react-redux';
 import App from './components/app/app';
 import {store} from './store';
-import {fetchFilmsAction, fetchPromoAction} from './store/api-actions';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-store.dispatch(fetchPromoAction());
-store.dispatch(fetchFilmsAction());
+import {checkAuthAction} from './store/api-actions';
+import { getToken } from './services/token';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
+
+if(getToken()) {
+  store.dispatch(checkAuthAction());
+}
 
 root.render(
   <React.StrictMode>
@@ -20,5 +23,5 @@ root.render(
       <ToastContainer />
       <App />
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );

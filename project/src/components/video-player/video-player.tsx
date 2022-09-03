@@ -5,7 +5,7 @@ type VideoPlayerProps = {
   previewVideoLink: string,
   isPlaying: boolean,
   width: string,
-  height: string
+  height: string,
 }
 
 function VideoPlayer({posterImage, previewVideoLink, isPlaying, width, height}: VideoPlayerProps): JSX.Element {
@@ -25,12 +25,17 @@ function VideoPlayer({posterImage, previewVideoLink, isPlaying, width, height}: 
 
     videoRef.current.pause();
     videoRef.current.currentTime = 0;
-    videoRef.current.load();
 
   }, [isPlaying]);
 
   return (
-    <video width={width} height={height} ref={videoRef} poster={posterImage} muted>
+    <video
+      width={width}
+      height={height}
+      ref={videoRef}
+      poster={posterImage}
+      muted
+    >
       <source src={previewVideoLink} />
     </video>
   );
